@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
     <title>@ViewData["Title"] - BibliotecaMVC</title>
 
@@ -16,10 +18,10 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
             <div class="container-fluid">
 
-                <a class="navbar-brand"
+                <a class="navbar-brand fw-bold"
                    asp-controller="Home"
                    asp-action="Index">
                     BibliotecaMVC
@@ -28,17 +30,18 @@
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
+                        data-bs-target="#menuPrincipal"
+                        aria-controls="menuPrincipal"
                         aria-expanded="false"
                         aria-label="Mostrar menú">
 
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse"
+                     id="menuPrincipal">
 
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
 
                         <li class="nav-item">
                             <a class="nav-link text-dark"
@@ -58,8 +61,8 @@
 
                         <li class="nav-item">
                             <a class="nav-link text-dark"
-                               asp-controller="Home"
-                               asp-action="Autores">
+                               asp-controller="Autores"
+                               asp-action="Index">
                                 Autores
                             </a>
                         </li>
@@ -108,8 +111,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container py-3">
             &copy; 2026 - BibliotecaMVC - Sistema de gestión bibliotecaria
         </div>
     </footer>
