@@ -5,22 +5,27 @@
 }
 
 <div class="container mt-4">
+
     <div class="mb-4">
         <h1 class="display-5 fw-bold">Autores</h1>
 
         <p class="text-muted">
-            Listado de autores registrados en el Sistema de Biblioteca.
+            Administración de autores registrados en el Sistema de Biblioteca.
         </p>
     </div>
 
     <div class="card shadow-sm">
+
         <div class="card-header bg-primary text-white">
-            <h2 class="h5 mb-0">Registro de autores</h2>
+            <h2 class="h5 mb-0">Listado de autores</h2>
         </div>
 
         <div class="card-body p-0">
+
             <div class="table-responsive">
+
                 <table class="table table-striped table-hover table-bordered align-middle mb-0">
+
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
@@ -29,16 +34,22 @@
                             <th>Nacionalidad</th>
                             <th>Fecha de nacimiento</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         @foreach (var autor in Model)
                         {
                             <tr>
+
                                 <td>@autor.ID</td>
+
                                 <td>@autor.Nombre</td>
+
                                 <td>@autor.Apellido</td>
+
                                 <td>@autor.Nacionalidad</td>
 
                                 <td>
@@ -59,15 +70,40 @@
                                         </span>
                                     }
                                 </td>
+
+                                <td>
+
+                                    <a asp-controller="Autores"
+                                       asp-action="Edit"
+                                       asp-route-id="@autor.ID"
+                                       class="btn btn-warning btn-sm">
+                                        Editar
+                                    </a>
+
+                                    <a asp-controller="Autores"
+                                       asp-action="Delete"
+                                       asp-route-id="@autor.ID"
+                                       class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </a>
+
+                                </td>
+
                             </tr>
                         }
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
 
         <div class="card-footer text-muted">
-            Total de autores registrados: @Model.Count()
+            Total de autores: @Model.Count()
         </div>
+
     </div>
+
 </div>

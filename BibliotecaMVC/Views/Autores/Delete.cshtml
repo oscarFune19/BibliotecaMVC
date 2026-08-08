@@ -1,0 +1,86 @@
+﻿@model BibliotecaMVC.Models.Autor
+
+@{
+    ViewData["Title"] = "Eliminar Autor";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-header bg-danger text-white">
+
+                    <h2 class="h4 mb-0">
+                        Eliminar autor
+                    </h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        ¿Está seguro de que desea eliminar este autor?
+                    </div>
+
+                    <dl class="row">
+
+                        <dt class="col-sm-4">
+                            ID
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.ID
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Nombre
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Nombre @Model.Apellido
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            Nacionalidad
+                        </dt>
+
+                        <dd class="col-sm-8">
+                            @Model.Nacionalidad
+                        </dd>
+
+                    </dl>
+
+                    <form asp-controller="Autores"
+                          asp-action="Delete"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.ID" />
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Sí, eliminar
+                        </button>
+
+                        <a asp-controller="Autores"
+                           asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

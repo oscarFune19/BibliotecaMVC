@@ -1,0 +1,115 @@
+﻿@model BibliotecaMVC.Models.Autor
+
+@{
+    ViewData["Title"] = "Editar Autor";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-warning">
+                    <h2 class="h4 mb-0">
+                        Editar autor
+                    </h2>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-controller="Autores"
+                          asp-action="Edit"
+                          method="post">
+
+                        <input type="hidden"
+                               asp-for="ID" />
+
+                        <div class="mb-3">
+
+                            <label asp-for="Nombre"
+                                   class="form-label">
+                                Nombre
+                            </label>
+
+                            <input asp-for="Nombre"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Apellido"
+                                   class="form-label">
+                                Apellido
+                            </label>
+
+                            <input asp-for="Apellido"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Nacionalidad"
+                                   class="form-label">
+                                Nacionalidad
+                            </label>
+
+                            <input asp-for="Nacionalidad"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="FechaNacimiento"
+                                   class="form-label">
+                                Fecha de nacimiento
+                            </label>
+
+                            <input asp-for="FechaNacimiento"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            <input asp-for="Activo"
+                                   class="form-check-input" />
+
+                            <label asp-for="Activo"
+                                   class="form-check-label">
+                                Autor activo
+                            </label>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success">
+                            Guardar cambios
+                        </button>
+
+                        <a asp-controller="Autores"
+                           asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

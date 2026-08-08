@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
 
@@ -17,8 +18,11 @@
 </head>
 
 <body>
+
     <header>
+
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
+
             <div class="container-fluid">
 
                 <a class="navbar-brand fw-bold"
@@ -36,6 +40,7 @@
                         aria-label="Mostrar menú">
 
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
 
                 <div class="collapse navbar-collapse"
@@ -44,77 +49,104 @@
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Home"
                                asp-action="Index">
                                 Inicio
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
-                               asp-controller="Home"
-                               asp-action="Libros">
+                               asp-controller="Libros"
+                               asp-action="Index">
                                 Libros
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Autores"
                                asp-action="Index">
                                 Autores
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Home"
                                asp-action="Categorias">
                                 Categorías
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Home"
                                asp-action="Usuarios">
                                 Usuarios
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Home"
                                asp-action="Prestamos">
                                 Préstamos
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a class="nav-link text-dark"
                                asp-controller="Home"
                                asp-action="AcercaDe">
                                 Acerca de
                             </a>
+
                         </li>
 
                     </ul>
+
                 </div>
+
             </div>
+
         </nav>
+
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+
+        <main role="main"
+              class="pb-3">
+
             @RenderBody()
+
         </main>
+
     </div>
 
     <footer class="border-top footer text-muted mt-5">
+
         <div class="container py-3">
+
             &copy; 2026 - BibliotecaMVC - Sistema de gestión bibliotecaria
+
         </div>
+
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -126,5 +158,7 @@
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
+
 </html>

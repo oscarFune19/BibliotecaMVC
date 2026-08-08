@@ -1,0 +1,79 @@
+﻿@model BibliotecaMVC.Models.Libro
+
+@{
+    ViewData["Title"] = "Eliminar Libro";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-header bg-danger text-white">
+
+                    <h2 class="h4 mb-0">
+                        Eliminar libro
+                    </h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        ¿Está seguro de que desea eliminar este libro?
+                    </div>
+
+                    <div class="text-center mb-4">
+
+                        <img src="@Model.Imagen"
+                             alt="@Model.Titulo"
+                             style="max-height: 250px;"
+                             class="img-fluid rounded" />
+
+                    </div>
+
+                    <h3>@Model.Titulo</h3>
+
+                    <p>
+                        <strong>Autor:</strong>
+                        @Model.Autor
+                    </p>
+
+                    <p>
+                        <strong>Categoría:</strong>
+                        @Model.Categoria
+                    </p>
+
+                    <form asp-controller="Libros"
+                          asp-action="Delete"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.ID" />
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Sí, eliminar
+                        </button>
+
+                        <a asp-controller="Libros"
+                           asp-action="Index"
+                           class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
