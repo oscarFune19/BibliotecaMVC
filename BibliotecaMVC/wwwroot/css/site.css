@@ -29,3 +29,352 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+/* ==========================================================
+   SEMANA 4 - BIBLIOTECA VIRTUAL
+   ========================================================== */
+
+
+/* ----------------------------
+   HOME
+   ---------------------------- */
+
+.home-hero-icon {
+    font-size: 10rem;
+    line-height: 1;
+    padding: 2rem;
+    background: #f1f5ff;
+    border-radius: 30px;
+}
+
+.home-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .home-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;
+    }
+
+.home-card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+
+/* ----------------------------
+   CAROUSEL
+   ---------------------------- */
+
+.carousel-book-container {
+    min-height: 400px;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    background: linear-gradient( 135deg, #16213e, #274690 );
+    color: white;
+}
+
+.carousel-book-image {
+    width: 220px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.carousel-book-info {
+    max-width: 400px;
+}
+
+    .carousel-book-info h3 {
+        font-size: 2.3rem;
+        font-weight: 700;
+    }
+
+    .carousel-book-info p {
+        font-size: 1.2rem;
+        opacity: 0.85;
+    }
+
+
+/* ==========================================================
+   ABOUT
+   ========================================================== */
+
+.about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+}
+
+
+/* ENCABEZADO */
+
+.about-header {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+    border-radius: 24px;
+    color: white;
+    background: linear-gradient( 135deg, #14213d, #274690 );
+}
+
+.about-label {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.about-header h1 {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.about-header p {
+    max-width: 750px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+
+/* INTRODUCCIÓN */
+
+.about-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.about-article,
+.about-aside {
+    padding: 2rem;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+    .about-article h2,
+    .about-aside h3 {
+        color: #14213d;
+        font-weight: 700;
+    }
+
+    .about-article p,
+    .about-aside p {
+        color: #60666d;
+        line-height: 1.8;
+    }
+
+.about-aside {
+    border-left: 5px solid #0d6efd;
+    background: #f1f5ff;
+}
+
+
+/* SERVICIOS */
+
+.about-services {
+    margin-bottom: 4rem;
+}
+
+    .about-services > header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .about-services > header h2 {
+            font-weight: 700;
+            color: #14213d;
+        }
+
+        .about-services > header p {
+            color: #6c757d;
+        }
+
+.about-services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.about-service {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: white;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .about-service:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-service span {
+        display: block;
+        margin-bottom: 1rem;
+        font-size: 3rem;
+    }
+
+    .about-service h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #14213d;
+    }
+
+    .about-service p {
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+
+/* PROYECTO */
+
+.about-project {
+    padding: 2.5rem;
+    border-radius: 18px;
+    background: #f8f9fa;
+}
+
+    .about-project h2 {
+        color: #14213d;
+        font-weight: 700;
+    }
+
+    .about-project p {
+        color: #60666d;
+        line-height: 1.8;
+    }
+
+    .about-project ul {
+        margin-top: 1.5rem;
+    }
+
+    .about-project li {
+        margin-bottom: 0.5rem;
+    }
+
+
+/* ==========================================================
+   MEDIA QUERIES
+   ========================================================== */
+
+
+/* TABLETS */
+
+@media (max-width: 992px) {
+
+    .home-hero-icon {
+        font-size: 7rem;
+    }
+
+    .carousel-book-container {
+        gap: 2rem;
+    }
+
+    .about-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* TABLETS PEQUEÑAS Y MÓVILES */
+
+@media (max-width: 768px) {
+
+    .home-hero-icon {
+        font-size: 6rem;
+        padding: 1rem;
+    }
+
+    .carousel-book-container {
+        min-height: 520px;
+        padding: 2rem;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .carousel-book-image {
+        width: 170px;
+        height: 250px;
+    }
+
+    .carousel-book-info h3 {
+        font-size: 1.7rem;
+    }
+
+
+    /* ABOUT */
+
+    .about-header {
+        padding: 3rem 1.5rem;
+    }
+
+        .about-header h1 {
+            font-size: 2.2rem;
+        }
+
+    .about-section {
+        grid-template-columns: 1fr;
+    }
+
+    .about-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* CELULARES */
+
+@media (max-width: 576px) {
+
+    .about-page {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .about-header {
+        padding: 2.5rem 1rem;
+        border-radius: 16px;
+    }
+
+        .about-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .about-header p {
+            font-size: 1rem;
+        }
+
+    .about-article,
+    .about-aside {
+        padding: 1.4rem;
+    }
+
+    .about-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-project {
+        padding: 1.5rem;
+    }
+
+    .carousel-book-image {
+        width: 140px;
+        height: 210px;
+    }
+}

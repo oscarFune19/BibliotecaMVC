@@ -2,23 +2,406 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center mt-5">
+<!-- HERO PRINCIPAL -->
+<section class="container py-4">
 
-    <h1 class="display-3">
-        BibliotecaMVC
-    </h1>
+    <div class="row align-items-center g-4">
 
-    <p class="lead">
-        Sistema de gestión bibliotecaria para consultar libros,
-        autores, categorías, usuarios y préstamos.
-    </p>
+        <div class="col-lg-7">
 
-    <a class="btn btn-primary mt-3"
-       asp-controller="Libros"
-       asp-action="Index">
+            <span class="badge bg-primary mb-3">
+                Biblioteca Virtual
+            </span>
 
-        Explorar libros
+            <h1 class="display-4 fw-bold">
+                Descubre historias,
+                conocimiento y nuevas ideas
+            </h1>
 
-    </a>
+            <p class="lead text-muted">
+                BibliotecaMVC es un espacio virtual donde puedes
+                consultar libros, conocer autores y explorar
+                diferentes categorías literarias.
+            </p>
 
-</div>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+
+                <a asp-controller="Libros"
+                   asp-action="Index"
+                   class="btn btn-primary btn-lg">
+                    Explorar libros
+                </a>
+
+                <a asp-controller="Autores"
+                   asp-action="Index"
+                   class="btn btn-outline-primary btn-lg">
+                    Ver autores
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-5 text-center">
+
+            <div class="home-hero-icon">
+                📚
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CAROUSEL - RETO BOOTSTRAP -->
+<section class="container my-5">
+
+    <div class="text-center mb-4">
+
+        <h2 class="fw-bold">
+            Libros destacados
+        </h2>
+
+        <p class="text-muted">
+            Algunas obras disponibles en nuestra biblioteca.
+        </p>
+
+    </div>
+
+    <div id="carouselLibros"
+         class="carousel slide shadow rounded overflow-hidden"
+         data-bs-ride="carousel">
+
+        <div class="carousel-indicators">
+
+            <button type="button"
+                    data-bs-target="#carouselLibros"
+                    data-bs-slide-to="0"
+                    class="active"
+                    aria-current="true"
+                    aria-label="Libro 1">
+            </button>
+
+            <button type="button"
+                    data-bs-target="#carouselLibros"
+                    data-bs-slide-to="1"
+                    aria-label="Libro 2">
+            </button>
+
+            <button type="button"
+                    data-bs-target="#carouselLibros"
+                    data-bs-slide-to="2"
+                    aria-label="Libro 3">
+            </button>
+
+        </div>
+
+        <div class="carousel-inner">
+
+            <!-- CIEN AÑOS DE SOLEDAD -->
+            <div class="carousel-item active">
+
+                <div class="carousel-book-container">
+
+                    <img src="~/images/cien-anios.jpg"
+                         alt="Cien años de soledad"
+                         class="carousel-book-image" />
+
+                    <div class="carousel-book-info">
+
+                        <span class="badge bg-warning text-dark mb-2">
+                            Realismo mágico
+                        </span>
+
+                        <h3>
+                            Cien años de soledad
+                        </h3>
+
+                        <p>
+                            Gabriel García Márquez
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 1984 -->
+            <div class="carousel-item">
+
+                <div class="carousel-book-container">
+
+                    <img src="~/images/1984.jpg"
+                         alt="1984"
+                         class="carousel-book-image" />
+
+                    <div class="carousel-book-info">
+
+                        <span class="badge bg-danger mb-2">
+                            Distopía
+                        </span>
+
+                        <h3>
+                            1984
+                        </h3>
+
+                        <p>
+                            George Orwell
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EL PRINCIPITO -->
+            <div class="carousel-item">
+
+                <div class="carousel-book-container">
+
+                    <img src="~/images/principito.jpg"
+                         alt="El principito"
+                         class="carousel-book-image" />
+
+                    <div class="carousel-book-info">
+
+                        <span class="badge bg-info text-dark mb-2">
+                            Literatura
+                        </span>
+
+                        <h3>
+                            El principito
+                        </h3>
+
+                        <p>
+                            Antoine de Saint-Exupéry
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselLibros"
+                data-bs-slide="prev">
+
+            <span class="carousel-control-prev-icon"></span>
+
+            <span class="visually-hidden">
+                Anterior
+            </span>
+
+        </button>
+
+
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselLibros"
+                data-bs-slide="next">
+
+            <span class="carousel-control-next-icon"></span>
+
+            <span class="visually-hidden">
+                Siguiente
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- SERVICIOS -->
+<section class="container my-5">
+
+    <div class="text-center mb-4">
+
+        <h2 class="fw-bold">
+            Explora nuestra biblioteca
+        </h2>
+
+        <p class="text-muted">
+            Consulta los diferentes recursos disponibles.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+
+        <!-- LIBROS -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card h-100 shadow-sm border-0 home-card">
+
+                <div class="card-body text-center">
+
+                    <div class="home-card-icon">
+                        📖
+                    </div>
+
+                    <h5 class="card-title fw-bold">
+                        Libros
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Consulta nuestro catálogo de libros y
+                        conoce su disponibilidad.
+                    </p>
+
+                    <a asp-controller="Libros"
+                       asp-action="Index"
+                       class="btn btn-outline-primary">
+                        Ver libros
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AUTORES -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card h-100 shadow-sm border-0 home-card">
+
+                <div class="card-body text-center">
+
+                    <div class="home-card-icon">
+                        ✍️
+                    </div>
+
+                    <h5 class="card-title fw-bold">
+                        Autores
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Descubre información sobre los autores
+                        registrados en el sistema.
+                    </p>
+
+                    <a asp-controller="Autores"
+                       asp-action="Index"
+                       class="btn btn-outline-primary">
+                        Ver autores
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CATEGORÍAS -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card h-100 shadow-sm border-0 home-card">
+
+                <div class="card-body text-center">
+
+                    <div class="home-card-icon">
+                        🗂️
+                    </div>
+
+                    <h5 class="card-title fw-bold">
+                        Categorías
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Explora diferentes géneros y temáticas
+                        disponibles en la biblioteca.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Categorias"
+                       class="btn btn-outline-primary">
+                        Ver categorías
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRÉSTAMOS -->
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card h-100 shadow-sm border-0 home-card">
+
+                <div class="card-body text-center">
+
+                    <div class="home-card-icon">
+                        📋
+                    </div>
+
+                    <h5 class="card-title fw-bold">
+                        Préstamos
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Consulta información relacionada con
+                        los préstamos de libros.
+                    </p>
+
+                    <a asp-controller="Home"
+                       asp-action="Prestamos"
+                       class="btn btn-outline-primary">
+                        Ver préstamos
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- AVISO BOOTSTRAP -->
+<section class="container my-5">
+
+    <div class="alert alert-primary shadow-sm"
+         role="alert">
+
+        <h4 class="alert-heading">
+            📚 Biblioteca Virtual
+        </h4>
+
+        <p>
+            Nuestro objetivo es facilitar el acceso a la
+            información bibliográfica mediante una plataforma
+            sencilla, organizada y accesible desde distintos
+            dispositivos.
+        </p>
+
+        <hr />
+
+        <p class="mb-0">
+            Explora el catálogo y encuentra tu próxima lectura.
+        </p>
+
+    </div>
+
+</section>
