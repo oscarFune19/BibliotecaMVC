@@ -378,3 +378,408 @@ body {
         height: 210px;
     }
 }
+/* =========================================================
+   SEMANA 5
+   FLEXBOX, CSS GRID Y DISEÑO ADAPTABLE
+   ========================================================= */
+
+
+/* =========================
+   ACTIVIDAD 1 - FLEXBOX
+   ========================= */
+
+.home-flex-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+
+.home-flex-item {
+    flex: 1 1 300px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 28px;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .home-flex-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+    }
+
+.home-flex-icon {
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    background-color: #eef5ff;
+    border-radius: 16px;
+}
+
+
+/* =========================
+   ACTIVIDAD 2 - CSS GRID
+   ========================= */
+
+.home-library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.home-grid-card {
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .home-grid-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+    }
+
+    .home-grid-card h4 {
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .home-grid-card p {
+        color: #6c757d;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+.home-grid-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 30px;
+    background-color: #eef5ff;
+    border-radius: 16px;
+}
+
+
+/* =========================
+   ACTIVIDAD 3
+   DISEÑO ADAPTABLE
+   ========================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+
+    .home-library-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-flex-item {
+        flex: 1 1 45%;
+    }
+}
+
+
+/* TABLET PEQUEÑA / MÓVIL */
+@media (max-width: 768px) {
+
+    .home-flex-actions {
+        flex-direction: column;
+    }
+
+    .home-flex-item {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .home-library-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-flex-item,
+    .home-grid-card {
+        padding: 22px;
+    }
+}
+
+
+/* TELÉFONOS PEQUEÑOS */
+@media (max-width: 576px) {
+
+    .home-flex-item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .home-grid-card {
+        text-align: center;
+    }
+
+    .home-grid-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-flex-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+    }
+
+    .home-grid-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+    }
+}
+/* =========================================================
+   SEMANA 5 - ABOUT
+   COMPONENTES REUTILIZABLES + RESPONSIVE + RETO FINAL
+   ========================================================= */
+
+
+/* =========================
+   COMPONENTE REUTILIZABLE 1
+   SERVICE CARD
+   ========================= */
+
+.about-service {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .about-service:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+    }
+
+.about-service-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    background-color: #eef5ff;
+    border-radius: 16px;
+    margin-bottom: 18px;
+}
+
+.about-service h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.about-service p {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   COMPONENTE REUTILIZABLE 2
+   FEATURE CARD
+   ========================= */
+
+.about-features {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+    .about-features > header {
+        max-width: 720px;
+        margin: 0 auto 35px;
+    }
+
+        .about-features > header h2 {
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .about-features > header p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+.about-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.about-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 26px;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .about-feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+    }
+
+.about-feature-icon {
+    flex-shrink: 0;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    background-color: #eef5ff;
+    border-radius: 15px;
+}
+
+.about-feature h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.about-feature p {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   RETO FINAL - ACABADO VISUAL
+   ========================= */
+
+.about-services > header {
+    max-width: 720px;
+    margin-bottom: 32px;
+}
+
+.about-label {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.about-project {
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+
+    .about-project article {
+        border-radius: 18px;
+    }
+
+    .about-project ul {
+        margin-bottom: 0;
+    }
+
+
+/* =========================
+   ACTIVIDAD 3
+   DISEÑO ADAPTABLE ABOUT
+   ========================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+
+    .about-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* TABLET PEQUEÑA */
+@media (max-width: 768px) {
+
+    .about-section {
+        grid-template-columns: 1fr;
+    }
+
+    .about-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-header {
+        text-align: center;
+    }
+
+    .about-services > header {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+/* TELÉFONO */
+@media (max-width: 576px) {
+
+    .about-page {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .about-header h1 {
+        font-size: 2rem;
+    }
+
+    .about-service {
+        text-align: center;
+        padding: 22px;
+    }
+
+    .about-service-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .about-feature {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 22px;
+    }
+
+    .about-feature-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+    }
+
+    .about-project {
+        margin-top: 40px;
+    }
+}

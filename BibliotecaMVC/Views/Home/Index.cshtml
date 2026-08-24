@@ -55,10 +55,14 @@
 </section>
 
 
-<!-- CAROUSEL - RETO BOOTSTRAP -->
+<!-- CARRUSEL DE LIBROS DESTACADOS -->
 <section class="container my-5">
 
     <div class="text-center mb-4">
+
+        <span class="badge bg-light text-primary border mb-2">
+            Recomendaciones
+        </span>
 
         <h2 class="fw-bold">
             Libros destacados
@@ -224,7 +228,252 @@
 </section>
 
 
-<!-- SERVICIOS -->
+<!-- ACTIVIDAD 1: SECCIÓN ORGANIZADA CON FLEXBOX -->
+<section class="container my-5">
+
+    <div class="text-center mb-4">
+
+        <span class="badge bg-primary mb-2">
+            Acceso rápido
+        </span>
+
+        <h2 class="fw-bold">
+            ¿Qué deseas explorar?
+        </h2>
+
+        <p class="text-muted">
+            Accede rápidamente a las principales áreas
+            de nuestra Biblioteca Virtual.
+        </p>
+
+    </div>
+
+    <div class="home-flex-actions">
+
+        <!-- LIBROS -->
+        <div class="home-flex-item">
+
+            <div class="home-flex-icon">
+                📖
+            </div>
+
+            <div>
+                <h4 class="fw-bold">
+                    Explora libros
+                </h4>
+
+                <p class="text-muted mb-3">
+                    Consulta nuestro catálogo y descubre nuevas lecturas.
+                </p>
+
+                <a asp-controller="Libros"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Ir a libros
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- AUTORES -->
+        <div class="home-flex-item">
+
+            <div class="home-flex-icon">
+                ✍️
+            </div>
+
+            <div>
+                <h4 class="fw-bold">
+                    Conoce autores
+                </h4>
+
+                <p class="text-muted mb-3">
+                    Descubre información sobre autores registrados.
+                </p>
+
+                <a asp-controller="Autores"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Ir a autores
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- CATEGORÍAS -->
+        <div class="home-flex-item">
+
+            <div class="home-flex-icon">
+                🗂️
+            </div>
+
+            <div>
+                <h4 class="fw-bold">
+                    Ver categorías
+                </h4>
+
+                <p class="text-muted mb-3">
+                    Encuentra libros según género y temática.
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Categorias"
+                   class="btn btn-primary">
+                    Ir a categorías
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACTIVIDAD 2: SECCIÓN ESTRUCTURADA CON CSS GRID -->
+<section class="container my-5">
+
+    <div class="text-center mb-4">
+
+        <span class="badge bg-light text-primary border mb-2">
+            Biblioteca Virtual
+        </span>
+
+        <h2 class="fw-bold">
+            Todo en un mismo espacio
+        </h2>
+
+        <p class="text-muted">
+            Nuestra plataforma organiza distintos recursos para
+            facilitar la consulta de información bibliográfica.
+        </p>
+
+    </div>
+
+
+    <div class="home-library-grid">
+
+        <!-- CATÁLOGO -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                📚
+            </div>
+
+            <h4>
+                Catálogo digital
+            </h4>
+
+            <p>
+                Consulta libros registrados y revisa la
+                información disponible de cada obra.
+            </p>
+
+        </article>
+
+
+        <!-- AUTORES -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                👤
+            </div>
+
+            <h4>
+                Autores
+            </h4>
+
+            <p>
+                Conoce los escritores que forman parte
+                del catálogo de la biblioteca.
+            </p>
+
+        </article>
+
+
+        <!-- CATEGORÍAS -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                🗃️
+            </div>
+
+            <h4>
+                Categorías
+            </h4>
+
+            <p>
+                Organiza y consulta las obras según su
+                género o temática.
+            </p>
+
+        </article>
+
+
+        <!-- PRÉSTAMOS -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                📋
+            </div>
+
+            <h4>
+                Préstamos
+            </h4>
+
+            <p>
+                Consulta información relacionada con
+                los préstamos de material bibliográfico.
+            </p>
+
+        </article>
+
+
+        <!-- DISPONIBILIDAD -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                ✅
+            </div>
+
+            <h4>
+                Disponibilidad
+            </h4>
+
+            <p>
+                Identifica fácilmente cuáles libros
+                se encuentran disponibles.
+            </p>
+
+        </article>
+
+
+        <!-- ACCESO -->
+        <article class="home-grid-card">
+
+            <div class="home-grid-icon">
+                💻
+            </div>
+
+            <h4>
+                Acceso adaptable
+            </h4>
+
+            <p>
+                Utiliza la Biblioteca Virtual desde
+                computadora, tablet o teléfono.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- SECCIÓN DE SERVICIOS -->
 <section class="container my-5">
 
     <div class="text-center mb-4">
@@ -241,7 +490,6 @@
 
 
     <div class="row g-4">
-
 
         <!-- LIBROS -->
         <div class="col-md-6 col-lg-3">
@@ -379,7 +627,7 @@
 </section>
 
 
-<!-- AVISO BOOTSTRAP -->
+<!-- AVISO FINAL -->
 <section class="container my-5">
 
     <div class="alert alert-primary shadow-sm"
@@ -404,4 +652,4 @@
 
     </div>
 
-</section>
+</section>  

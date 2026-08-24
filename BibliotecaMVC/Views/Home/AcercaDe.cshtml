@@ -1,10 +1,65 @@
 ﻿@{
     ViewData["Title"] = "Acerca de";
+
+    var servicios = new List<BibliotecaMVC.Models.InfoCardViewModel>
+    {
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "📖",
+            Titulo = "Catálogo de libros",
+            Descripcion = "Consulta títulos, autores, categorías, disponibilidad e información detallada."
+        },
+
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "✍️",
+            Titulo = "Gestión de autores",
+            Descripcion = "Permite visualizar y administrar información relacionada con los autores registrados."
+        },
+
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "🗂️",
+            Titulo = "Categorías",
+            Descripcion = "Facilita la organización de libros de acuerdo con diferentes géneros y temáticas."
+        },
+
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "📋",
+            Titulo = "Préstamos",
+            Descripcion = "Permite consultar información relacionada con los préstamos realizados."
+        }
+    };
+
+    var caracteristicas = new List<BibliotecaMVC.Models.InfoCardViewModel>
+    {
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "📱",
+            Titulo = "Diseño adaptable",
+            Descripcion = "La interfaz se adapta correctamente a computadoras, tablets y teléfonos móviles."
+        },
+
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "⚡",
+            Titulo = "Acceso rápido",
+            Descripcion = "La navegación permite acceder fácilmente a libros, autores, categorías y préstamos."
+        },
+
+        new BibliotecaMVC.Models.InfoCardViewModel
+        {
+            Icono = "🎨",
+            Titulo = "Interfaz organizada",
+            Descripcion = "Los contenidos utilizan una estructura visual limpia, consistente y fácil de comprender."
+        }
+    };
 }
 
 <div class="about-page">
 
-    <!-- ENCABEZADO SEMÁNTICO -->
+    <!-- ENCABEZADO -->
     <header class="about-header">
 
         <span class="about-label">
@@ -23,7 +78,7 @@
     </header>
 
 
-    <!-- SECCIÓN PRINCIPAL -->
+    <!-- INFORMACIÓN PRINCIPAL -->
     <section class="about-section">
 
         <article class="about-article">
@@ -67,10 +122,14 @@
     </section>
 
 
-    <!-- SERVICIOS -->
+    <!-- COMPONENTE REUTILIZABLE 1 -->
     <section class="about-services">
 
         <header>
+
+            <span class="about-label">
+                Nuestros recursos
+            </span>
 
             <h2>
                 Servicios disponibles
@@ -86,77 +145,45 @@
 
         <div class="about-services-grid">
 
+            @foreach (var servicio in servicios)
+            {
+                <partial name="_ServiceCard"
+                         model="servicio" />
+            }
 
-            <article class="about-service">
+        </div>
 
-                <span>
-                    📖
-                </span>
-
-                <h3>
-                    Catálogo de libros
-                </h3>
-
-                <p>
-                    Consulta títulos, autores, categorías,
-                    disponibilidad e información detallada.
-                </p>
-
-            </article>
+    </section>
 
 
-            <article class="about-service">
+    <!-- COMPONENTE REUTILIZABLE 2 -->
+    <section class="about-features">
 
-                <span>
-                    ✍️
-                </span>
+        <header class="text-center">
 
-                <h3>
-                    Gestión de autores
-                </h3>
+            <span class="about-label">
+                Experiencia digital
+            </span>
 
-                <p>
-                    Permite visualizar y administrar información
-                    relacionada con los autores registrados.
-                </p>
+            <h2>
+                Una biblioteca pensada para todos
+            </h2>
 
-            </article>
+            <p>
+                La plataforma combina organización, accesibilidad
+                y una experiencia adaptable a diferentes dispositivos.
+            </p>
 
-
-            <article class="about-service">
-
-                <span>
-                    🗂️
-                </span>
-
-                <h3>
-                    Categorías
-                </h3>
-
-                <p>
-                    Facilita la organización de libros de acuerdo
-                    con diferentes géneros y temáticas.
-                </p>
-
-            </article>
+        </header>
 
 
-            <article class="about-service">
+        <div class="about-features-grid">
 
-                <span>
-                    📋
-                </span>
-
-                <h3>
-                    Préstamos
-                </h3>
-
-                <p>
-                    Permite consultar información relacionada
-                    con los préstamos realizados.
-                </p>
-
-            </article>
+            @foreach (var caracteristica in caracteristicas)
+            {
+                <partial name="_FeatureCard"
+                         model="caracteristica" />
+            }
 
         </div>
 
@@ -183,7 +210,10 @@
                 <li>Bootstrap</li>
                 <li>Razor</li>
                 <li>ASP.NET Core MVC</li>
+                <li>CSS Flexbox</li>
+                <li>CSS Grid</li>
                 <li>Diseño responsivo</li>
+                <li>Partial Views reutilizables</li>
             </ul>
 
         </article>
