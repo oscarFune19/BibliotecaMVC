@@ -1,83 +1,45 @@
 ﻿using BibliotecaMVC.Models;
+using BibliotecaMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotecaMVC.Controllers
 {
     public class AutoresController : Controller
     {
-        private static List<Autor> autores = new List<Autor>
+        private readonly IAutorService _autorService;
+
+        public AutoresController(IAutorService autorService)
         {
-            new Autor
-            {
-                ID = 1,
-                Nombre = "Gabriel",
-                Apellido = "García Márquez",
-                Nacionalidad = "Colombiana",
-                FechaNacimiento = new DateTime(1927, 3, 6),
-                Activo = false
-            },
+            _autorService = autorService;
+        }
 
-            new Autor
-            {
-                ID = 2,
-                Nombre = "Isabel",
-                Apellido = "Allende",
-                Nacionalidad = "Chilena",
-                FechaNacimiento = new DateTime(1942, 8, 2),
-                Activo = true
-            },
-
-            new Autor
-            {
-                ID = 3,
-                Nombre = "Stephen",
-                Apellido = "King",
-                Nacionalidad = "Estadounidense",
-                FechaNacimiento = new DateTime(1947, 9, 21),
-                Activo = true
-            },
-
-            new Autor
-            {
-                ID = 4,
-                Nombre = "Jane",
-                Apellido = "Austen",
-                Nacionalidad = "Británica",
-                FechaNacimiento = new DateTime(1775, 12, 16),
-                Activo = false
-            },
-
-            new Autor
-            {
-                ID = 5,
-                Nombre = "Mario",
-                Apellido = "Vargas Llosa",
-                Nacionalidad = "Peruana",
-                FechaNacimiento = new DateTime(1936, 3, 28),
-                Activo = false
-            },
-
-            new Autor
-            {
-                ID = 6,
-                Nombre = "J. K.",
-                Apellido = "Rowling",
-                Nacionalidad = "Británica",
-                FechaNacimiento = new DateTime(1965, 7, 31),
-                Activo = true
-            }
-        };
-
+        // Listado de autores
         public IActionResult Index()
         {
+            var autores = _autorService.ObtenerAutores();
+
             return View(autores);
+        }
+
+        // Detalle de un autor
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var autor = _autorService.ObtenerAutorPorId(id);
+
+            if (autor == null)
+            {
+                return NotFound();
+            }
+
+            return View(autor);
         }
 
         // Muestra el formulario para editar
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var autor = autores.FirstOrDefault(a => a.ID == id);
+            var autor = _autorService.ObtenerAutorPorId(id);
 
             if (autor == null)
             {
@@ -92,19 +54,12 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Autor autor)
         {
-            var autorExistente =
-                autores.FirstOrDefault(a => a.ID == autor.ID);
+            var actualizado = _autorService.ActualizarAutor(autor);
 
-            if (autorExistente == null)
+            if (!actualizado)
             {
                 return NotFound();
             }
-
-            autorExistente.Nombre = autor.Nombre;
-            autorExistente.Apellido = autor.Apellido;
-            autorExistente.Nacionalidad = autor.Nacionalidad;
-            autorExistente.FechaNacimiento = autor.FechaNacimiento;
-            autorExistente.Activo = autor.Activo;
 
             return RedirectToAction(nameof(Index));
         }
@@ -113,7 +68,7 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var autor = autores.FirstOrDefault(a => a.ID == id);
+            var autor = _autorService.ObtenerAutorPorId(id);
 
             if (autor == null)
             {
@@ -129,12 +84,7 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var autor = autores.FirstOrDefault(a => a.ID == id);
-
-            if (autor != null)
-            {
-                autores.Remove(autor);
-            }
+            _autorService.EliminarAutor(id);
 
             return RedirectToAction(nameof(Index));
         }

@@ -1,0 +1,126 @@
+﻿@model BibliotecaMVC.Models.Autor
+
+@{
+    ViewData["Title"] = "Detalle del Autor";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm border-0 rounded-4">
+
+                <div class="card-header bg-primary text-white p-4">
+
+                    <h2 class="mb-1">
+                        Detalle del Autor
+                    </h2>
+
+                    <p class="mb-0">
+                        Información registrada en BibliotecaMVC
+                    </p>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="mb-4">
+
+                        <h3 class="fw-bold">
+                            @Model.Nombre @Model.Apellido
+                        </h3>
+
+                        <span class="badge bg-secondary">
+                            ID: @Model.ID
+                        </span>
+
+                    </div>
+
+
+                    <hr />
+
+
+                    <div class="row g-4 mt-1">
+
+                        <div class="col-md-6">
+
+                            <p class="text-muted mb-1">
+                                Nacionalidad
+                            </p>
+
+                            <p class="fw-semibold">
+                                @Model.Nacionalidad
+                            </p>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <p class="text-muted mb-1">
+                                Fecha de nacimiento
+                            </p>
+
+                            <p class="fw-semibold">
+                                @Model.FechaNacimiento.ToString("dd/MM/yyyy")
+                            </p>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <p class="text-muted mb-1">
+                                Estado
+                            </p>
+
+                            @if (Model.Activo)
+                            {
+                                <span class="badge bg-success">
+                                    Activo
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    Inactivo
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex flex-wrap gap-2 mt-5">
+
+                        <a asp-controller="Autores"
+                           asp-action="Edit"
+                           asp-route-id="@Model.ID"
+                           class="btn btn-primary">
+
+                            Editar autor
+
+                        </a>
+
+                        <a asp-controller="Autores"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+
+                            Volver al listado
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
