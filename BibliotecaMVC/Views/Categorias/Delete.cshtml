@@ -1,0 +1,105 @@
+﻿@model BibliotecaMVC.Models.Categoria
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-danger text-white p-4">
+
+                    <h2 class="mb-1">
+                        Eliminar Categoría
+                    </h2>
+
+                    <p class="mb-0">
+                        Confirma la eliminación del registro.
+                    </p>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="alert alert-warning" role="alert">
+
+                        <strong>Advertencia:</strong>
+                        esta operación eliminará permanentemente
+                        la categoría de la base de datos.
+
+                    </div>
+
+                    <h3 class="fw-bold mb-3">
+                        @Model.Nombre
+                    </h3>
+
+                    <dl class="row">
+
+                        <dt class="col-sm-3">
+                            ID
+                        </dt>
+
+                        <dd class="col-sm-9">
+                            @Model.ID
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            Nombre
+                        </dt>
+
+                        <dd class="col-sm-9">
+                            @Model.Nombre
+                        </dd>
+
+                        <dt class="col-sm-3">
+                            Descripción
+                        </dt>
+
+                        <dd class="col-sm-9">
+                            @Model.Descripcion
+                        </dd>
+
+                    </dl>
+
+                    <hr />
+
+                    <p class="fw-semibold">
+                        ¿Está seguro de que desea eliminar esta categoría?
+                    </p>
+
+                    <form asp-controller="Categorias"
+                          asp-action="Delete"
+                          asp-route-id="@Model.ID"
+                          method="post">
+
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+                                Sí, eliminar
+                            </button>
+
+                            <a asp-controller="Categorias"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
