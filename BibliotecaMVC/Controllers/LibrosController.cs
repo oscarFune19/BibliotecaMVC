@@ -1,180 +1,71 @@
-﻿using BibliotecaMVC.Models;
+﻿using BibliotecaMVC.Data;
+using BibliotecaMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotecaMVC.Controllers
 {
     public class LibrosController : Controller
     {
-        private static List<Libro> libros = new List<Libro>
+        private readonly BibliotecaDbContext _context;
+
+        public LibrosController(BibliotecaDbContext context)
         {
-            new Libro
-            {
-                ID = 1,
-                Titulo = "Cien años de soledad",
-                Autor = "Gabriel García Márquez",
-                Categoria = "Realismo mágico",
-                AnioPublicacion = 1967,
-                Disponible = true,
-                Imagen = "/images/cien-anios.jpg"
-            },
+            _context = context;
+        }
 
-            new Libro
-            {
-                ID = 2,
-                Titulo = "1984",
-                Autor = "George Orwell",
-                Categoria = "Distopía",
-                AnioPublicacion = 1949,
-                Disponible = false,
-                Imagen = "/images/1984.jpg"
-            },
+        // ==========================================
+        // MOSTRAR LIBROS
+        // ==========================================
 
-            new Libro
-            {
-                ID = 3,
-                Titulo = "El principito",
-                Autor = "Antoine de Saint-Exupéry",
-                Categoria = "Literatura infantil",
-                AnioPublicacion = 1943,
-                Disponible = true,
-                Imagen = "/images/principito.jpg"
-            },
-
-            new Libro
-            {
-                ID = 4,
-                Titulo = "Orgullo y prejuicio",
-                Autor = "Jane Austen",
-                Categoria = "Romance",
-                AnioPublicacion = 1813,
-                Disponible = true,
-                Imagen = "/images/orgullo-prejuicio.jpg"
-            },
-
-            new Libro
-            {
-                ID = 5,
-                Titulo = "Fahrenheit 451",
-                Autor = "Ray Bradbury",
-                Categoria = "Ciencia ficción",
-                AnioPublicacion = 1953,
-                Disponible = false,
-                Imagen = "/images/fahrenheit451.jpg"
-            }
-        };
-
-        // LISTAR
+        [HttpGet]
         public IActionResult Index()
         {
+            var libros = _context.Libros
+                .OrderBy(l => l.ID)
+                .ToList();
+
             return View(libros);
         }
 
-        // DETALLE
-        public IActionResult Details(int id)
-        {
-            var libro = libros.FirstOrDefault(l => l.ID == id);
 
-            if (libro == null)
+        // ==========================================
+        // AGREGAR LIBRO - GET
+        // ==========================================
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var libro = new Libro
             {
-                return NotFound();
-            }
+                Disponible = true,
+                Imagen = "/images/libro-default.jpg"
+            };
 
             return View(libro);
         }
 
-        // CREAR - GET
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View(new Libro
-            {
-                Disponible = true,
-                Imagen = "/images/libro-default.jpg"
-            });
-        }
 
-        // CREAR - POST
+        // ==========================================
+        // AGREGAR LIBRO - POST
+        // ==========================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Libro libro)
         {
-            if (libros.Count == 0)
+            if (!ModelState.IsValid)
             {
-                libro.ID = 1;
-            }
-            else
-            {
-                libro.ID = libros.Max(l => l.ID) + 1;
+                return View(libro);
             }
 
-            libros.Add(libro);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // EDITAR - GET
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            var libro = libros.FirstOrDefault(l => l.ID == id);
-
-            if (libro == null)
+            if (string.IsNullOrWhiteSpace(libro.Imagen))
             {
-                return NotFound();
+                libro.Imagen = "/images/libro-default.jpg";
             }
 
-            return View(libro);
-        }
+            _context.Libros.Add(libro);
 
-        // EDITAR - POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Libro libro)
-        {
-            var libroExistente =
-                libros.FirstOrDefault(l => l.ID == libro.ID);
-
-            if (libroExistente == null)
-            {
-                return NotFound();
-            }
-
-            libroExistente.Titulo = libro.Titulo;
-            libroExistente.Autor = libro.Autor;
-            libroExistente.Categoria = libro.Categoria;
-            libroExistente.AnioPublicacion = libro.AnioPublicacion;
-            libroExistente.Disponible = libro.Disponible;
-            libroExistente.Imagen = libro.Imagen;
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // ELIMINAR - GET
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var libro = libros.FirstOrDefault(l => l.ID == id);
-
-            if (libro == null)
-            {
-                return NotFound();
-            }
-
-            return View(libro);
-        }
-
-        // ELIMINAR - POST
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var libro = libros.FirstOrDefault(l => l.ID == id);
-
-            if (libro != null)
-            {
-                libros.Remove(libro);
-            }
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }

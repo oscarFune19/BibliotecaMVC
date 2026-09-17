@@ -1,17 +1,22 @@
+using BibliotecaMVC.Data;
 using BibliotecaMVC.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar servicios MVC
+// MVC
 builder.Services.AddControllersWithViews();
 
-// Inyección de dependencias
-// IAutorService utilizará la implementación alternativa con ciclo de vida Scoped
+// Semana 7 - Inyección de dependencias
 builder.Services.AddScoped<IAutorService, AutorServiceAlternativo>();
+
+// Semana 9 - Entity Framework Core
+builder.Services.AddDbContext<BibliotecaDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("BibliotecaConnection")));
 
 var app = builder.Build();
 
-// Configuración del manejo de errores
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -25,7 +30,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Ruta predeterminada MVC
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
