@@ -4,25 +4,26 @@
     ViewData["Title"] = "Eliminar Libro";
 }
 
-<div class="container mt-4">
+<div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-md-7">
+        <div class="col-lg-7">
 
-            <div class="card shadow-sm border-danger">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
 
-                <div class="card-header bg-danger text-white">
+                <div class="card-header bg-danger text-white py-3">
 
-                    <h2 class="h4 mb-0">
+                    <h2 class="h4 mb-0 fw-bold">
                         Eliminar libro
                     </h2>
 
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <div class="alert alert-warning">
+                        <strong>Atención:</strong>
                         ¿Está seguro de que desea eliminar este libro?
                     </div>
 
@@ -30,22 +31,50 @@
 
                         <img src="@Model.Imagen"
                              alt="@Model.Titulo"
-                             style="max-height: 250px;"
-                             class="img-fluid rounded" />
+                             class="img-fluid rounded"
+                             style="max-height: 250px; object-fit: cover;" />
 
                     </div>
 
-                    <h3>@Model.Titulo</h3>
+                    <div class="mb-4">
 
-                    <p>
-                        <strong>Autor:</strong>
-                        @Model.Autor
-                    </p>
+                        <h3 class="fw-bold">
+                            @Model.Titulo
+                        </h3>
 
-                    <p>
-                        <strong>Categoría:</strong>
-                        @Model.Categoria
-                    </p>
+                        <p class="mb-2">
+                            <strong>Autor:</strong>
+                            @Model.Autor
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>Categoría:</strong>
+                            @Model.Categoria
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>Año de publicación:</strong>
+                            @Model.AnioPublicacion
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>Estado:</strong>
+
+                            @if (Model.Disponible)
+                            {
+                                <span class="badge bg-success">
+                                    Disponible
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    No disponible
+                                </span>
+                            }
+                        </p>
+
+                    </div>
 
                     <form asp-controller="Libros"
                           asp-action="Delete"
@@ -55,16 +84,21 @@
                                name="id"
                                value="@Model.ID" />
 
-                        <button type="submit"
-                                class="btn btn-danger">
-                            Sí, eliminar
-                        </button>
+                        <div class="d-flex gap-2">
 
-                        <a asp-controller="Libros"
-                           asp-action="Index"
-                           class="btn btn-secondary">
-                            Cancelar
-                        </a>
+                            <button type="submit"
+                                    class="btn btn-danger"
+                                    onclick="return confirm('¿Está seguro de que desea eliminar este libro?');">
+                                Sí, eliminar
+                            </button>
+
+                            <a asp-controller="Libros"
+                               asp-action="Index"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
 
                     </form>
 

@@ -4,23 +4,23 @@
     ViewData["Title"] = "Editar Libro";
 }
 
-<div class="container mt-4">
+<div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-md-7">
+        <div class="col-lg-7">
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
 
-                <div class="card-header bg-warning">
+                <div class="card-header bg-warning py-3">
 
-                    <h2 class="h4 mb-0">
+                    <h2 class="h4 mb-0 fw-bold">
                         Editar libro
                     </h2>
 
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <form asp-controller="Libros"
                           asp-action="Edit"
@@ -29,68 +29,92 @@
                         <input type="hidden"
                                asp-for="ID" />
 
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
                         <div class="mb-3">
 
                             <label asp-for="Titulo"
-                                   class="form-label">
+                                   class="form-label fw-semibold">
                                 Título
                             </label>
 
                             <input asp-for="Titulo"
                                    class="form-control"
-                                   required />
+                                   placeholder="Ingrese el título del libro" />
+
+                            <span asp-validation-for="Titulo"
+                                  class="text-danger">
+                            </span>
 
                         </div>
 
                         <div class="mb-3">
 
                             <label asp-for="Autor"
-                                   class="form-label">
+                                   class="form-label fw-semibold">
                                 Autor
                             </label>
 
                             <input asp-for="Autor"
                                    class="form-control"
-                                   required />
+                                   placeholder="Ingrese el autor del libro" />
+
+                            <span asp-validation-for="Autor"
+                                  class="text-danger">
+                            </span>
 
                         </div>
 
                         <div class="mb-3">
 
                             <label asp-for="Categoria"
-                                   class="form-label">
+                                   class="form-label fw-semibold">
                                 Categoría
                             </label>
 
                             <input asp-for="Categoria"
                                    class="form-control"
-                                   required />
+                                   placeholder="Ingrese la categoría" />
+
+                            <span asp-validation-for="Categoria"
+                                  class="text-danger">
+                            </span>
 
                         </div>
 
                         <div class="mb-3">
 
                             <label asp-for="AnioPublicacion"
-                                   class="form-label">
+                                   class="form-label fw-semibold">
                                 Año de publicación
                             </label>
 
                             <input asp-for="AnioPublicacion"
                                    type="number"
-                                   class="form-control"
-                                   required />
+                                   class="form-control" />
+
+                            <span asp-validation-for="AnioPublicacion"
+                                  class="text-danger">
+                            </span>
 
                         </div>
 
                         <div class="mb-3">
 
                             <label asp-for="Imagen"
-                                   class="form-label">
+                                   class="form-label fw-semibold">
                                 Ruta de imagen
                             </label>
 
                             <input asp-for="Imagen"
-                                   class="form-control" />
+                                   class="form-control"
+                                   placeholder="/images/ejemplo.jpg" />
+
+                            <span asp-validation-for="Imagen"
+                                  class="text-danger">
+                            </span>
 
                         </div>
 
@@ -100,22 +124,26 @@
                                    class="form-check-input" />
 
                             <label asp-for="Disponible"
-                                   class="form-check-label">
+                                   class="form-check-label fw-semibold">
                                 Libro disponible
                             </label>
 
                         </div>
 
-                        <button type="submit"
-                                class="btn btn-success">
-                            Guardar cambios
-                        </button>
+                        <div class="d-flex gap-2">
 
-                        <a asp-controller="Libros"
-                           asp-action="Index"
-                           class="btn btn-secondary">
-                            Cancelar
-                        </a>
+                            <button type="submit"
+                                    class="btn btn-success">
+                                Guardar cambios
+                            </button>
+
+                            <a asp-controller="Libros"
+                               asp-action="Index"
+                               class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
 
                     </form>
 
@@ -128,3 +156,9 @@
     </div>
 
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
