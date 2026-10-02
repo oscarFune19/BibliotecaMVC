@@ -1,19 +1,21 @@
 using BibliotecaMVC.Data;
 using BibliotecaMVC.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC
 builder.Services.AddControllersWithViews();
 
-// Semana 7 - Inyección de dependencias
 builder.Services.AddScoped<IAutorService, AutorServiceAlternativo>();
 
-// Semana 9 - Entity Framework Core
 builder.Services.AddDbContext<BibliotecaDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("BibliotecaConnection")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<BibliotecaDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -28,6 +30,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
