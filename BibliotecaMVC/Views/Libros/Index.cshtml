@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BibliotecaMVC.Models.Libro>
+@model IEnumerable<BibliotecaMVC.Models.Libro>
 
 @{
     ViewData["Title"] = "Libros";
@@ -18,15 +18,18 @@
             </h1>
 
             <p class="text-muted mb-0">
-                Consulta y administra los libros registrados en BibliotecaMVC.
+                Consulta los libros registrados en BibliotecaMVC.
             </p>
         </div>
 
-        <a asp-controller="Libros"
-           asp-action="Create"
-           class="btn btn-primary">
-            + Agregar libro
-        </a>
+        @if (User.IsInRole("Administrador"))
+        {
+            <a asp-controller="Libros"
+               asp-action="Create"
+               class="btn btn-primary">
+                + Agregar libro
+            </a>
+        }
 
     </div>
 
@@ -97,19 +100,22 @@
                                     Ver
                                 </a>
 
-                                <a asp-controller="Libros"
-                                   asp-action="Edit"
-                                   asp-route-id="@libro.ID"
-                                   class="btn btn-warning btn-sm flex-fill">
-                                    Editar
-                                </a>
+                                @if (User.IsInRole("Administrador"))
+                                {
+                                    <a asp-controller="Libros"
+                                       asp-action="Edit"
+                                       asp-route-id="@libro.ID"
+                                       class="btn btn-warning btn-sm flex-fill">
+                                        Editar
+                                    </a>
 
-                                <a asp-controller="Libros"
-                                   asp-action="Delete"
-                                   asp-route-id="@libro.ID"
-                                   class="btn btn-danger btn-sm flex-fill">
-                                    Eliminar
-                                </a>
+                                    <a asp-controller="Libros"
+                                       asp-action="Delete"
+                                       asp-route-id="@libro.ID"
+                                       class="btn btn-danger btn-sm flex-fill">
+                                        Eliminar
+                                    </a>
+                                }
 
                             </div>
 

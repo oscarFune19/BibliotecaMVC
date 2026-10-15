@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -103,7 +103,7 @@
 
                     </ul>
 
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav align-items-sm-center">
 
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
@@ -111,6 +111,21 @@
                                 <span class="nav-link text-dark">
                                     Hola, @User.Identity.Name
                                 </span>
+                            </li>
+
+                            <li class="nav-item me-sm-2">
+                                @if (User.IsInRole("Administrador"))
+                                {
+                                    <span class="badge bg-danger">
+                                        Administrador
+                                    </span>
+                                }
+                                else if (User.IsInRole("Usuario"))
+                                {
+                                    <span class="badge bg-secondary">
+                                        Usuario
+                                    </span>
+                                }
                             </li>
 
                             <li class="nav-item">
