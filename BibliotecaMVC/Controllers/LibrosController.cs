@@ -1,9 +1,11 @@
-﻿using BibliotecaMVC.Data;
+using BibliotecaMVC.Data;
 using BibliotecaMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotecaMVC.Controllers
 {
+    [Authorize]
     public class LibrosController : Controller
     {
         private readonly BibliotecaDbContext _context;
@@ -12,7 +14,6 @@ namespace BibliotecaMVC.Controllers
         {
             _context = context;
         }
-
 
         // ==========================================
         // MOSTRAR LIBROS
@@ -28,11 +29,28 @@ namespace BibliotecaMVC.Controllers
             return View(libros);
         }
 
+        // ==========================================
+        // VER DETALLE DE LIBRO
+        // ==========================================
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var libro = _context.Libros.Find(id);
+
+            if (libro == null)
+            {
+                return NotFound();
+            }
+
+            return View(libro);
+        }
 
         // ==========================================
         // AGREGAR LIBRO - GET
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpGet]
         public IActionResult Create()
         {
@@ -45,11 +63,11 @@ namespace BibliotecaMVC.Controllers
             return View(libro);
         }
 
-
         // ==========================================
         // AGREGAR LIBRO - POST
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Libro libro)
@@ -65,17 +83,16 @@ namespace BibliotecaMVC.Controllers
             }
 
             _context.Libros.Add(libro);
-
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
-
         // ==========================================
         // EDITAR LIBRO - GET
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -89,11 +106,11 @@ namespace BibliotecaMVC.Controllers
             return View(libro);
         }
 
-
         // ==========================================
         // EDITAR LIBRO - POST
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Libro libro)
@@ -123,17 +140,16 @@ namespace BibliotecaMVC.Controllers
             }
 
             _context.Libros.Update(libroExistente);
-
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
-
         // ==========================================
         // ELIMINAR LIBRO - GET
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -147,11 +163,11 @@ namespace BibliotecaMVC.Controllers
             return View(libro);
         }
 
-
         // ==========================================
         // ELIMINAR LIBRO - POST
         // ==========================================
 
+        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -165,7 +181,6 @@ namespace BibliotecaMVC.Controllers
             }
 
             _context.Libros.Remove(libro);
-
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));

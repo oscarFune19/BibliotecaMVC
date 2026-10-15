@@ -1,4 +1,5 @@
-﻿using BibliotecaMVC.Models;
+using BibliotecaMVC.Data;
+using BibliotecaMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,6 +78,15 @@ namespace BibliotecaMVC.Controllers
 
             if (resultado.Succeeded)
             {
+                var administradores = await _userManager
+                    .GetUsersInRoleAsync(IdentitySeeder.AdministradorRole);
+
+                var rol = administradores.Count == 0
+                    ? IdentitySeeder.AdministradorRole
+                    : IdentitySeeder.UsuarioRole;
+
+                await _userManager.AddToRoleAsync(user, rol);
+
                 await _signInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
             }
@@ -85,6 +95,12 @@ namespace BibliotecaMVC.Controllers
                 ModelState.AddModelError("", error.Description);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
         [HttpPost]
