@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotecaMVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = IdentitySeeder.RolesConsulta)]
     public class LibrosController : Controller
     {
         private readonly BibliotecaDbContext _context;
@@ -50,7 +50,7 @@ namespace BibliotecaMVC.Controllers
         // AGREGAR LIBRO - GET
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpGet]
         public IActionResult Create()
         {
@@ -67,7 +67,7 @@ namespace BibliotecaMVC.Controllers
         // AGREGAR LIBRO - POST
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Libro libro)
@@ -92,7 +92,7 @@ namespace BibliotecaMVC.Controllers
         // EDITAR LIBRO - GET
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -110,7 +110,7 @@ namespace BibliotecaMVC.Controllers
         // EDITAR LIBRO - POST
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Libro libro)
@@ -149,7 +149,7 @@ namespace BibliotecaMVC.Controllers
         // ELIMINAR LIBRO - GET
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -167,7 +167,7 @@ namespace BibliotecaMVC.Controllers
         // ELIMINAR LIBRO - POST
         // ==========================================
 
-        [Authorize(Roles = IdentitySeeder.AdministradorRole)]
+        [Authorize(Roles = IdentitySeeder.RolesGestion)]
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]

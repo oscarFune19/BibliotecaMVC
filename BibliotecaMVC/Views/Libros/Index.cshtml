@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Libros";
+    var puedeGestionar =
+        User.IsInRole("Admin") ||
+        User.IsInRole("Bibliotecario");
 }
 
 <div class="container py-5">
@@ -22,7 +25,7 @@
             </p>
         </div>
 
-        @if (User.IsInRole("Administrador"))
+        @if (puedeGestionar)
         {
             <a asp-controller="Libros"
                asp-action="Create"
@@ -100,7 +103,7 @@
                                     Ver
                                 </a>
 
-                                @if (User.IsInRole("Administrador"))
+                                @if (puedeGestionar)
                                 {
                                     <a asp-controller="Libros"
                                        asp-action="Edit"
