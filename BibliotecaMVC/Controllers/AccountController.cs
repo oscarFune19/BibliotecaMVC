@@ -78,14 +78,24 @@ namespace BibliotecaMVC.Controllers
 
             if (resultado.Succeeded)
             {
-                var administradores = await _userManager
-                    .GetUsersInRoleAsync(IdentitySeeder.AdministradorRole);
+                var admins =
+                    await _userManager.GetUsersInRoleAsync(IdentitySeeder.AdminRole);
 
-                var rol = administradores.Count == 0
-                    ? IdentitySeeder.AdministradorRole
+                var rol = admins.Count == 0
+                    ? IdentitySeeder.AdminRole
                     : IdentitySeeder.UsuarioRole;
 
-                await _userManager.AddToRoleAsync(user, rol);
+                var resultadoRol =
+                    await _userManager.AddToRoleAsync(user, rol);
+
+                if (!resultadoRol.Succeeded)
+                {
+                    await _userManager.DeleteAsync(user);
+                    ModelState.AddModelError(
+                        "",
+                        "No fue posible asignar un rol al usuario.");
+                    return View(model);
+                }
 
                 await _signInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
