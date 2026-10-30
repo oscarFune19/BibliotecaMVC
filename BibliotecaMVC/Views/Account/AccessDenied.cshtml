@@ -4,27 +4,53 @@
 
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body p-5 text-center">
-                    <h1 class="fw-bold mb-3">Acceso denegado</h1>
+        <div class="col-lg-8 col-xl-7">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-body p-4 p-md-5 text-center">
 
-                    <p class="text-muted mb-4">
-                        Tu usuario inició sesión correctamente, pero no posee el rol necesario
-                        para realizar esta operación.
+                    <div class="mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle bg-warning-subtle text-warning-emphasis"
+                         style="width: 86px; height: 86px; font-size: 36px; font-weight: 700;">
+                        🔒
+                    </div>
+
+                    <span class="badge bg-warning-subtle text-warning-emphasis mb-3">
+                        Acceso restringido
+                    </span>
+
+                    <h1 class="fw-bold mb-3">
+                        No tienes permisos para realizar esta acción
+                    </h1>
+
+                    <p class="text-muted fs-5 mb-4">
+                        Tu sesión está activa, pero tu rol no tiene autorización para acceder
+                        al recurso solicitado. Las restricciones de seguridad continúan aplicándose
+                        aunque intentes ingresar directamente mediante la URL.
                     </p>
 
-                    <a asp-controller="Libros"
-                       asp-action="Index"
-                       class="btn btn-primary me-2">
-                        Volver a Libros
-                    </a>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="btn btn-primary px-4">
+                            Volver al inicio
+                        </a>
 
-                    <a asp-controller="Home"
-                       asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        Ir al inicio
-                    </a>
+                        <a asp-controller="Libros"
+                           asp-action="Index"
+                           class="btn btn-outline-primary px-4">
+                            Consultar Libros
+                        </a>
+
+                        <a asp-controller="Categorias"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary px-4">
+                            Ir a Categorías
+                        </a>
+                    </div>
+
+                    <p class="small text-muted mt-4 mb-0">
+                        Si necesitas realizar una operación restringida, utiliza una cuenta con los permisos correspondientes.
+                    </p>
+
                 </div>
             </div>
         </div>
