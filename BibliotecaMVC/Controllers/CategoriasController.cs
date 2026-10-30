@@ -1,4 +1,4 @@
-﻿using BibliotecaMVC.Models;
+using BibliotecaMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -8,15 +8,19 @@ namespace BibliotecaMVC.Controllers
     public class CategoriasController : Controller
     {
         private readonly string _connectionString;
+        private readonly ILogger<CategoriasController> _logger;
 
-        public CategoriasController(IConfiguration configuration)
+        public CategoriasController(
+            IConfiguration configuration,
+            ILogger<CategoriasController> logger)
         {
+            _logger = logger;
+
             _connectionString =
                 configuration.GetConnectionString("BibliotecaConnection")
                 ?? throw new InvalidOperationException(
                     "No se encontró la cadena de conexión BibliotecaConnection.");
         }
-
 
         // =====================================================
         // MOSTRAR CATEGORÍAS
@@ -25,38 +29,55 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var categorias = new List<Categoria>();
+            _logger.LogInformation(
+                "Iniciando consulta del listado de categorías.");
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                const string sql =
-                    @"SELECT ID, Nombre, Descripcion
-                      FROM Categorias
-                      ORDER BY ID;";
+                var categorias = new List<Categoria>();
 
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    connection.Open();
+                    const string sql =
+                        @"SELECT ID, Nombre, Descripcion
+                          FROM Categorias
+                          ORDER BY ID;";
 
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqlCommand(sql, connection))
                     {
-                        while (reader.Read())
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            categorias.Add(new Categoria
+                            while (reader.Read())
                             {
-                                ID = reader.GetInt32(reader.GetOrdinal("ID")),
-                                Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
-                                Descripcion = reader.GetString(
-                                    reader.GetOrdinal("Descripcion"))
-                            });
+                                categorias.Add(new Categoria
+                                {
+                                    ID = reader.GetInt32(reader.GetOrdinal("ID")),
+                                    Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                                    Descripcion = reader.GetString(
+                                        reader.GetOrdinal("Descripcion"))
+                                });
+                            }
                         }
                     }
                 }
+
+                _logger.LogInformation(
+                    "Consulta de categorías completada. Se encontraron {Cantidad} registros.",
+                    categorias.Count);
+
+                return View(categorias);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al consultar el listado de categorías.");
 
-            return View(categorias);
+                throw;
+            }
         }
-
 
         // =====================================================
         // AGREGAR CATEGORÍA - GET
@@ -65,9 +86,11 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            _logger.LogInformation(
+                "Iniciando apertura del formulario para crear una categoría.");
+
             return View(new Categoria());
         }
-
 
         // =====================================================
         // AGREGAR CATEGORÍA - POST
@@ -77,37 +100,56 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Categoria categoria)
         {
+            _logger.LogInformation(
+                "Iniciando creación de una nueva categoría.");
+
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning(
+                    "La creación de la categoría fue detenida porque los datos no son válidos.");
+
                 return View(categoria);
             }
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                const string sql =
-                    @"INSERT INTO Categorias (Nombre, Descripcion)
-                      VALUES (@Nombre, @Descripcion);";
-
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.Add(
-                        "@Nombre",
-                        SqlDbType.NVarChar,
-                        100).Value = categoria.Nombre;
+                    const string sql =
+                        @"INSERT INTO Categorias (Nombre, Descripcion)
+                          VALUES (@Nombre, @Descripcion);";
 
-                    command.Parameters.Add(
-                        "@Descripcion",
-                        SqlDbType.NVarChar,
-                        250).Value = categoria.Descripcion;
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.Add(
+                            "@Nombre",
+                            SqlDbType.NVarChar,
+                            100).Value = categoria.Nombre;
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                        command.Parameters.Add(
+                            "@Descripcion",
+                            SqlDbType.NVarChar,
+                            250).Value = categoria.Descripcion;
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+
+                _logger.LogInformation(
+                    "Categoría creada correctamente.");
+
+                return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al crear una categoría.");
 
-            return RedirectToAction(nameof(Index));
+                throw;
+            }
         }
-
 
         // =====================================================
         // EDITAR CATEGORÍA - GET
@@ -116,51 +158,70 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Categoria? categoria = null;
+            _logger.LogInformation(
+                "Iniciando consulta de la categoría con ID {CategoriaId} para editar.",
+                id);
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                const string sql =
-                    @"SELECT ID, Nombre, Descripcion
-                      FROM Categorias
-                      WHERE ID = @ID;";
+                Categoria? categoria = null;
 
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.Add(
-                        "@ID",
-                        SqlDbType.Int).Value = id;
+                    const string sql =
+                        @"SELECT ID, Nombre, Descripcion
+                          FROM Categorias
+                          WHERE ID = @ID;";
 
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqlCommand(sql, connection))
                     {
-                        if (reader.Read())
+                        command.Parameters.Add(
+                            "@ID",
+                            SqlDbType.Int).Value = id;
+
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            categoria = new Categoria
+                            if (reader.Read())
                             {
-                                ID = reader.GetInt32(
-                                    reader.GetOrdinal("ID")),
+                                categoria = new Categoria
+                                {
+                                    ID = reader.GetInt32(
+                                        reader.GetOrdinal("ID")),
 
-                                Nombre = reader.GetString(
-                                    reader.GetOrdinal("Nombre")),
+                                    Nombre = reader.GetString(
+                                        reader.GetOrdinal("Nombre")),
 
-                                Descripcion = reader.GetString(
-                                    reader.GetOrdinal("Descripcion"))
-                            };
+                                    Descripcion = reader.GetString(
+                                        reader.GetOrdinal("Descripcion"))
+                                };
+                            }
                         }
                     }
                 }
-            }
 
-            if (categoria == null)
+                if (categoria == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró la categoría con ID {CategoriaId} para editar.",
+                        id);
+
+                    return NotFound();
+                }
+
+                return View(categoria);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al consultar la categoría con ID {CategoriaId} para editar.",
+                    id);
+
+                throw;
             }
-
-            return View(categoria);
         }
-
 
         // =====================================================
         // EDITAR CATEGORÍA - POST
@@ -170,49 +231,76 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Categoria categoria)
         {
+            _logger.LogInformation(
+                "Iniciando actualización de la categoría con ID {CategoriaId}.",
+                categoria.ID);
+
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning(
+                    "La edición de la categoría con ID {CategoriaId} fue detenida porque los datos no son válidos.",
+                    categoria.ID);
+
                 return View(categoria);
             }
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                const string sql =
-                    @"UPDATE Categorias
-                      SET Nombre = @Nombre,
-                          Descripcion = @Descripcion
-                      WHERE ID = @ID;";
-
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.Add(
-                        "@Nombre",
-                        SqlDbType.NVarChar,
-                        100).Value = categoria.Nombre;
+                    const string sql =
+                        @"UPDATE Categorias
+                          SET Nombre = @Nombre,
+                              Descripcion = @Descripcion
+                          WHERE ID = @ID;";
 
-                    command.Parameters.Add(
-                        "@Descripcion",
-                        SqlDbType.NVarChar,
-                        250).Value = categoria.Descripcion;
-
-                    command.Parameters.Add(
-                        "@ID",
-                        SqlDbType.Int).Value = categoria.ID;
-
-                    connection.Open();
-
-                    int filasAfectadas = command.ExecuteNonQuery();
-
-                    if (filasAfectadas == 0)
+                    using (var command = new SqlCommand(sql, connection))
                     {
-                        return NotFound();
+                        command.Parameters.Add(
+                            "@Nombre",
+                            SqlDbType.NVarChar,
+                            100).Value = categoria.Nombre;
+
+                        command.Parameters.Add(
+                            "@Descripcion",
+                            SqlDbType.NVarChar,
+                            250).Value = categoria.Descripcion;
+
+                        command.Parameters.Add(
+                            "@ID",
+                            SqlDbType.Int).Value = categoria.ID;
+
+                        connection.Open();
+
+                        int filasAfectadas = command.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            _logger.LogWarning(
+                                "No se encontró la categoría con ID {CategoriaId} para actualizar.",
+                                categoria.ID);
+
+                            return NotFound();
+                        }
                     }
                 }
+
+                _logger.LogInformation(
+                    "Categoría con ID {CategoriaId} actualizada correctamente.",
+                    categoria.ID);
+
+                return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al actualizar la categoría con ID {CategoriaId}.",
+                    categoria.ID);
 
-            return RedirectToAction(nameof(Index));
+                throw;
+            }
         }
-
 
         // =====================================================
         // ELIMINAR CATEGORÍA - GET
@@ -221,51 +309,70 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Categoria? categoria = null;
+            _logger.LogInformation(
+                "Iniciando consulta de la categoría con ID {CategoriaId} para eliminar.",
+                id);
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                const string sql =
-                    @"SELECT ID, Nombre, Descripcion
-                      FROM Categorias
-                      WHERE ID = @ID;";
+                Categoria? categoria = null;
 
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.Add(
-                        "@ID",
-                        SqlDbType.Int).Value = id;
+                    const string sql =
+                        @"SELECT ID, Nombre, Descripcion
+                          FROM Categorias
+                          WHERE ID = @ID;";
 
-                    connection.Open();
-
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqlCommand(sql, connection))
                     {
-                        if (reader.Read())
+                        command.Parameters.Add(
+                            "@ID",
+                            SqlDbType.Int).Value = id;
+
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            categoria = new Categoria
+                            if (reader.Read())
                             {
-                                ID = reader.GetInt32(
-                                    reader.GetOrdinal("ID")),
+                                categoria = new Categoria
+                                {
+                                    ID = reader.GetInt32(
+                                        reader.GetOrdinal("ID")),
 
-                                Nombre = reader.GetString(
-                                    reader.GetOrdinal("Nombre")),
+                                    Nombre = reader.GetString(
+                                        reader.GetOrdinal("Nombre")),
 
-                                Descripcion = reader.GetString(
-                                    reader.GetOrdinal("Descripcion"))
-                            };
+                                    Descripcion = reader.GetString(
+                                        reader.GetOrdinal("Descripcion"))
+                                };
+                            }
                         }
                     }
                 }
-            }
 
-            if (categoria == null)
+                if (categoria == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró la categoría con ID {CategoriaId} para eliminar.",
+                        id);
+
+                    return NotFound();
+                }
+
+                return View(categoria);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al consultar la categoría con ID {CategoriaId} para eliminar.",
+                    id);
+
+                throw;
             }
-
-            return View(categoria);
         }
-
 
         // =====================================================
         // ELIMINAR CATEGORÍA - POST
@@ -276,30 +383,54 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            _logger.LogInformation(
+                "Iniciando eliminación de la categoría con ID {CategoriaId}.",
+                id);
+
+            try
             {
-                const string sql =
-                    @"DELETE FROM Categorias
-                      WHERE ID = @ID;";
-
-                using (var command = new SqlCommand(sql, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    command.Parameters.Add(
-                        "@ID",
-                        SqlDbType.Int).Value = id;
+                    const string sql =
+                        @"DELETE FROM Categorias
+                          WHERE ID = @ID;";
 
-                    connection.Open();
-
-                    int filasAfectadas = command.ExecuteNonQuery();
-
-                    if (filasAfectadas == 0)
+                    using (var command = new SqlCommand(sql, connection))
                     {
-                        return NotFound();
+                        command.Parameters.Add(
+                            "@ID",
+                            SqlDbType.Int).Value = id;
+
+                        connection.Open();
+
+                        int filasAfectadas = command.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            _logger.LogWarning(
+                                "No se encontró la categoría con ID {CategoriaId} para eliminar.",
+                                id);
+
+                            return NotFound();
+                        }
                     }
                 }
-            }
 
-            return RedirectToAction(nameof(Index));
+                _logger.LogInformation(
+                    "Categoría con ID {CategoriaId} eliminada correctamente.",
+                    id);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al eliminar la categoría con ID {CategoriaId}.",
+                    id);
+
+                throw;
+            }
         }
     }
 }

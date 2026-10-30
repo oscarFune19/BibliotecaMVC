@@ -9,10 +9,14 @@ namespace BibliotecaMVC.Controllers
     public class LibrosController : Controller
     {
         private readonly BibliotecaDbContext _context;
+        private readonly ILogger<LibrosController> _logger;
 
-        public LibrosController(BibliotecaDbContext context)
+        public LibrosController(
+            BibliotecaDbContext context,
+            ILogger<LibrosController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // ==========================================
@@ -22,11 +26,28 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var libros = _context.Libros
-                .OrderBy(l => l.ID)
-                .ToList();
+            _logger.LogInformation("Iniciando consulta del listado de libros.");
 
-            return View(libros);
+            try
+            {
+                var libros = _context.Libros
+                    .OrderBy(l => l.ID)
+                    .ToList();
+
+                _logger.LogInformation(
+                    "Consulta de libros completada. Se encontraron {Cantidad} registros.",
+                    libros.Count);
+
+                return View(libros);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al consultar el listado de libros.");
+
+                throw;
+            }
         }
 
         // ==========================================
@@ -36,14 +57,34 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var libro = _context.Libros.Find(id);
+            _logger.LogInformation(
+                "Iniciando consulta del detalle del libro con ID {LibroId}.",
+                id);
 
-            if (libro == null)
+            try
             {
-                return NotFound();
-            }
+                var libro = _context.Libros.Find(id);
 
-            return View(libro);
+                if (libro == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró el libro con ID {LibroId}.",
+                        id);
+
+                    return NotFound();
+                }
+
+                return View(libro);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al consultar el libro con ID {LibroId}.",
+                    id);
+
+                throw;
+            }
         }
 
         // ==========================================
@@ -54,6 +95,9 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            _logger.LogInformation(
+                "Iniciando apertura del formulario para crear un libro.");
+
             var libro = new Libro
             {
                 Disponible = true,
@@ -72,20 +116,41 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Libro libro)
         {
+            _logger.LogInformation(
+                "Iniciando creación de un nuevo libro.");
+
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning(
+                    "La creación del libro fue detenida porque los datos no son válidos.");
+
                 return View(libro);
             }
 
-            if (string.IsNullOrWhiteSpace(libro.Imagen))
+            try
             {
-                libro.Imagen = "/images/libro-default.jpg";
+                if (string.IsNullOrWhiteSpace(libro.Imagen))
+                {
+                    libro.Imagen = "/images/libro-default.jpg";
+                }
+
+                _context.Libros.Add(libro);
+                _context.SaveChanges();
+
+                _logger.LogInformation(
+                    "Libro creado correctamente con ID {LibroId}.",
+                    libro.ID);
+
+                return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al crear un libro.");
 
-            _context.Libros.Add(libro);
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
+                throw;
+            }
         }
 
         // ==========================================
@@ -96,14 +161,34 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var libro = _context.Libros.Find(id);
+            _logger.LogInformation(
+                "Iniciando apertura del formulario de edición para el libro con ID {LibroId}.",
+                id);
 
-            if (libro == null)
+            try
             {
-                return NotFound();
-            }
+                var libro = _context.Libros.Find(id);
 
-            return View(libro);
+                if (libro == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró el libro con ID {LibroId} para editar.",
+                        id);
+
+                    return NotFound();
+                }
+
+                return View(libro);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al cargar el libro con ID {LibroId} para editar.",
+                    id);
+
+                throw;
+            }
         }
 
         // ==========================================
@@ -115,34 +200,62 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Libro libro)
         {
+            _logger.LogInformation(
+                "Iniciando actualización del libro con ID {LibroId}.",
+                id);
+
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning(
+                    "La edición del libro con ID {LibroId} fue detenida porque los datos no son válidos.",
+                    id);
+
                 return View(libro);
             }
 
-            var libroExistente = _context.Libros.Find(id);
-
-            if (libroExistente == null)
+            try
             {
-                return NotFound();
+                var libroExistente = _context.Libros.Find(id);
+
+                if (libroExistente == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró el libro con ID {LibroId} para actualizar.",
+                        id);
+
+                    return NotFound();
+                }
+
+                libroExistente.Titulo = libro.Titulo;
+                libroExistente.Autor = libro.Autor;
+                libroExistente.Categoria = libro.Categoria;
+                libroExistente.AnioPublicacion = libro.AnioPublicacion;
+                libroExistente.Disponible = libro.Disponible;
+                libroExistente.Imagen = libro.Imagen;
+
+                if (string.IsNullOrWhiteSpace(libroExistente.Imagen))
+                {
+                    libroExistente.Imagen = "/images/libro-default.jpg";
+                }
+
+                _context.Libros.Update(libroExistente);
+                _context.SaveChanges();
+
+                _logger.LogInformation(
+                    "Libro con ID {LibroId} actualizado correctamente.",
+                    id);
+
+                return RedirectToAction(nameof(Index));
             }
-
-            libroExistente.Titulo = libro.Titulo;
-            libroExistente.Autor = libro.Autor;
-            libroExistente.Categoria = libro.Categoria;
-            libroExistente.AnioPublicacion = libro.AnioPublicacion;
-            libroExistente.Disponible = libro.Disponible;
-            libroExistente.Imagen = libro.Imagen;
-
-            if (string.IsNullOrWhiteSpace(libroExistente.Imagen))
+            catch (Exception ex)
             {
-                libroExistente.Imagen = "/images/libro-default.jpg";
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al actualizar el libro con ID {LibroId}.",
+                    id);
+
+                throw;
             }
-
-            _context.Libros.Update(libroExistente);
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
         }
 
         // ==========================================
@@ -153,14 +266,34 @@ namespace BibliotecaMVC.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var libro = _context.Libros.Find(id);
+            _logger.LogInformation(
+                "Iniciando consulta para eliminar el libro con ID {LibroId}.",
+                id);
 
-            if (libro == null)
+            try
             {
-                return NotFound();
-            }
+                var libro = _context.Libros.Find(id);
 
-            return View(libro);
+                if (libro == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró el libro con ID {LibroId} para eliminar.",
+                        id);
+
+                    return NotFound();
+                }
+
+                return View(libro);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al cargar el libro con ID {LibroId} para eliminar.",
+                    id);
+
+                throw;
+            }
         }
 
         // ==========================================
@@ -173,17 +306,41 @@ namespace BibliotecaMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var libro = _context.Libros.Find(id);
+            _logger.LogInformation(
+                "Iniciando eliminación del libro con ID {LibroId}.",
+                id);
 
-            if (libro == null)
+            try
             {
-                return NotFound();
+                var libro = _context.Libros.Find(id);
+
+                if (libro == null)
+                {
+                    _logger.LogWarning(
+                        "No se encontró el libro con ID {LibroId} para confirmar su eliminación.",
+                        id);
+
+                    return NotFound();
+                }
+
+                _context.Libros.Remove(libro);
+                _context.SaveChanges();
+
+                _logger.LogInformation(
+                    "Libro con ID {LibroId} eliminado correctamente.",
+                    id);
+
+                return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Ocurrió un error al eliminar el libro con ID {LibroId}.",
+                    id);
 
-            _context.Libros.Remove(libro);
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
+                throw;
+            }
         }
     }
 }
