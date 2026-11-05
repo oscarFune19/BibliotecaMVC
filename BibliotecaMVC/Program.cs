@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAutorService, AutorServiceAlternativo>();
+builder.Services.AddScoped<ILibroService, LibroService>();
 
 builder.Services.AddDbContext<BibliotecaDbContext>(options =>
     options.UseSqlServer(

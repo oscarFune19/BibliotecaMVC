@@ -1,5 +1,6 @@
 using BibliotecaMVC.Data;
 using BibliotecaMVC.Models;
+using BibliotecaMVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +9,14 @@ namespace BibliotecaMVC.Controllers
     [Authorize(Roles = IdentitySeeder.RolesConsulta)]
     public class LibrosController : Controller
     {
-        private readonly BibliotecaDbContext _context;
+        private readonly ILibroService _libroService;
         private readonly ILogger<LibrosController> _logger;
 
         public LibrosController(
-            BibliotecaDbContext context,
+            ILibroService libroService,
             ILogger<LibrosController> logger)
         {
-            _context = context;
+            _libroService = libroService;
             _logger = logger;
         }
 
@@ -30,9 +31,7 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libros = _context.Libros
-                    .OrderBy(l => l.ID)
-                    .ToList();
+                var libros = _libroService.ObtenerTodos();
 
                 _logger.LogInformation(
                     "Consulta de libros completada. Se encontraron {Cantidad} registros.",
@@ -63,7 +62,7 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libro = _context.Libros.Find(id);
+                var libro = _libroService.ObtenerPorId(id);
 
                 if (libro == null)
                 {
@@ -129,17 +128,11 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                if (string.IsNullOrWhiteSpace(libro.Imagen))
-                {
-                    libro.Imagen = "/images/libro-default.jpg";
-                }
-
-                _context.Libros.Add(libro);
-                _context.SaveChanges();
+                var libroCreado = _libroService.Agregar(libro);
 
                 _logger.LogInformation(
                     "Libro creado correctamente con ID {LibroId}.",
-                    libro.ID);
+                    libroCreado.ID);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -167,7 +160,7 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libro = _context.Libros.Find(id);
+                var libro = _libroService.ObtenerPorId(id);
 
                 if (libro == null)
                 {
@@ -215,9 +208,9 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libroExistente = _context.Libros.Find(id);
+                var actualizado = _libroService.Actualizar(id, libro);
 
-                if (libroExistente == null)
+                if (!actualizado)
                 {
                     _logger.LogWarning(
                         "No se encontró el libro con ID {LibroId} para actualizar.",
@@ -225,21 +218,6 @@ namespace BibliotecaMVC.Controllers
 
                     return NotFound();
                 }
-
-                libroExistente.Titulo = libro.Titulo;
-                libroExistente.Autor = libro.Autor;
-                libroExistente.Categoria = libro.Categoria;
-                libroExistente.AnioPublicacion = libro.AnioPublicacion;
-                libroExistente.Disponible = libro.Disponible;
-                libroExistente.Imagen = libro.Imagen;
-
-                if (string.IsNullOrWhiteSpace(libroExistente.Imagen))
-                {
-                    libroExistente.Imagen = "/images/libro-default.jpg";
-                }
-
-                _context.Libros.Update(libroExistente);
-                _context.SaveChanges();
 
                 _logger.LogInformation(
                     "Libro con ID {LibroId} actualizado correctamente.",
@@ -272,7 +250,7 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libro = _context.Libros.Find(id);
+                var libro = _libroService.ObtenerPorId(id);
 
                 if (libro == null)
                 {
@@ -312,9 +290,9 @@ namespace BibliotecaMVC.Controllers
 
             try
             {
-                var libro = _context.Libros.Find(id);
+                var eliminado = _libroService.Eliminar(id);
 
-                if (libro == null)
+                if (!eliminado)
                 {
                     _logger.LogWarning(
                         "No se encontró el libro con ID {LibroId} para confirmar su eliminación.",
@@ -322,9 +300,6 @@ namespace BibliotecaMVC.Controllers
 
                     return NotFound();
                 }
-
-                _context.Libros.Remove(libro);
-                _context.SaveChanges();
 
                 _logger.LogInformation(
                     "Libro con ID {LibroId} eliminado correctamente.",
