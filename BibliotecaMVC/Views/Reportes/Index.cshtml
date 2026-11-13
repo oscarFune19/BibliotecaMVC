@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Reportes";
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge bg-primary mb-3">
+            BibliotecaMVC
+        </span>
+
+        <h1 class="fw-bold">
+            Reportes de Libros
+        </h1>
+
+        <p class="text-muted mx-auto"
+           style="max-width: 700px;">
+            Genera y descarga la información de los libros registrados
+            en formato PDF o Excel.
+        </p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-6 col-lg-5">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-lg-5 text-center">
+
+                    <div class="display-5 mb-3">
+                        📄
+                    </div>
+
+                    <h3 class="fw-bold">
+                        Reporte PDF
+                    </h3>
+
+                    <p class="text-muted">
+                        Genera un documento PDF con ID, nombre del libro,
+                        autor, categoría, fecha de generación y total de registros.
+                    </p>
+
+                    <a asp-controller="Reportes"
+                       asp-action="GenerarPdf"
+                       class="btn btn-danger px-4">
+                        Generar reporte PDF
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-5">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-lg-5 text-center">
+
+                    <div class="display-5 mb-3">
+                        📊
+                    </div>
+
+                    <h3 class="fw-bold">
+                        Reporte Excel
+                    </h3>
+
+                    <p class="text-muted">
+                        Exporta los libros a una hoja de cálculo con encabezados,
+                        bordes, estilos y columnas ajustadas automáticamente.
+                    </p>
+
+                    <a asp-controller="Reportes"
+                       asp-action="ExportarExcel"
+                       class="btn btn-success px-4">
+                        Exportar a Excel
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="alert alert-light border shadow-sm mt-5 text-center">
+        Ambos reportes utilizan la información almacenada actualmente
+        en la base de datos de BibliotecaMVC.
+    </div>
+
+</div>
